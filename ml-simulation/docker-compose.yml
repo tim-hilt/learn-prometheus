@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  prometheus:
+    image: prom/prometheus
+    ports:
+    - 9090:9090
+    command:
+    - --config.file=/etc/prometheus/prometheus.yml
+    volumes:
+    - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+  ml-simulation:
+    build: .
+    image: ml-simulation
+    ports:
+    - 8080:8080
