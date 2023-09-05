@@ -14,24 +14,26 @@ import (
 var (
 	diminishingFactor = 1.0
 	confidenceChannel = make(chan float64)
+	labelValues       = []string{"fizz", "buzz"}
 )
 
 func simulateBinaryClassification() {
 	confidenceMetric := promauto.NewSummaryVec(prometheus.SummaryOpts{ // INFO: ...Vec is a good idea, because that's effectively what labels do: They increase the number of time-series
 		Name: "ml_simulation_confidence_percent",
 		Help: "Confidence score for a simulated ML-Model inference",
-	}, []string{"foo", "bar"}).
-		// INFO: Normally you would set the labels not directly after the
-		//  definition of a metric, but rather everywhere, where the labels
-		//  stay the same. Defining a `prometheus.Observer` is more performant
-		//  though. So it's generally a good advice to only observe on an
-		//  Observer, rather than on setting the labels everytime.
-		WithLabelValues("baz", "fizz")
+	}, []string{"foo", "bar"})
 
-	for {
+	for i := 0; ; i++ {
 		// result will always be between 0.8 and 1.0
 		result := (rand.Float64()*0.2 + 0.8) * diminishingFactor // In practice Prometheus always displays a value of approximately 0.9, given that the trend doesn't deteriorate
-		confidenceMetric.Observe(result)
+
+		// INFO: This just constructs different time-series depending on some random condition
+		if j := i % 2; j > 0 {
+			confidenceMetric.WithLabelValues(labelValues[0], labelValues[1]).Observe(result)
+		} else {
+			confidenceMetric.WithLabelValues(labelValues[1], labelValues[0]).Observe(result)
+		}
+
 		confidenceChannel <- result
 
 		log.Println(result)
