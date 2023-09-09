@@ -1,0 +1,13 @@
+port: 8080
+
+# Dependencies
+kube-prometheus-stack:
+  kubeStateMetrics:
+    enabled: false
+  nodeExporter:
+    enabled: false
+
+cadvisor:
+  metrics:
+    enabled: true
+    interval: 10s

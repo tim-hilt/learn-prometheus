@@ -1,0 +1,9 @@
+dependencies:
+- name: kube-prometheus-stack
+  repository: https://prometheus-community.github.io/helm-charts
+  version: 50.3.1
+- name: cadvisor
+  repository: https://ckotzbauer.github.io/helm-charts
+  version: 2.3.0
+digest: sha256:123f163a754190c7fe67ac10756d7f7b7cd1fee19236efb97ab7fafa4f991a6a
+generated: "2023-09-09T23:37:08.992592+02:00"

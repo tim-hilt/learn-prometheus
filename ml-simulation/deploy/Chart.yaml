@@ -1,0 +1,19 @@
+apiVersion: v2
+name: ml-simulation
+description: Deploys the ML-Simulation from project root along with a monitoring environment
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+
+maintainers:
+  - name: Tim Hilt
+    email: timhilt@live.de
+    url: https://www.tim-hilt.com
+
+dependencies:
+  - name: kube-prometheus-stack
+    version: ~50.3.1
+    repository: https://prometheus-community.github.io/helm-charts
+  - name: cadvisor
+    version: ~2.3.0
+    repository: https://ckotzbauer.github.io/helm-charts

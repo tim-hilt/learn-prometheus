@@ -3,13 +3,23 @@ services:
   prometheus:
     image: prom/prometheus
     ports:
-    - 9090:9090
+      - 9090:9090
     command:
-    - --config.file=/etc/prometheus/prometheus.yml
+      - --config.file=/etc/prometheus/prometheus.yml
     volumes:
-    - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+  grafana:
+    image: grafana/grafana
+    ports:
+      - 3000:3000
+    volumes:
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - prometheus
   ml-simulation:
     build: .
     image: ml-simulation
     ports:
-    - 8080:8080
+      - 8080:8080
+volumes:
+  grafana_data: {}
