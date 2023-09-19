@@ -1,22 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}
+  name: {{ .Chart.Name }}
 spec:
   selector:
     matchLabels:
-      app: {{ .Release.Name }}
+      app: {{ .Chart.Name }}
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}
+        app: {{ .Chart.Name }}
     spec:
       containers:
-        - name: {{ .Release.Name }}
-          image: {{ .Release.Name }}
-          imagePullPolicy: IfNotPresent
-          ports:
-            - containerPort: {{ .Values.port }}
-          resources:
-            limits:
-              memory: 32M
+      - name: {{ .Chart.Name }}
+        image: ml-simulation
+        imagePullPolicy: Never
+        ports:
+        - containerPort: {{ .Values.port }}
+        resources:
+          limits:
+            memory: 32M
+            cpu: 250m

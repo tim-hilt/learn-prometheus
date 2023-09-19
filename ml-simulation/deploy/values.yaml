@@ -6,8 +6,12 @@ kube-prometheus-stack:
     enabled: false
   nodeExporter:
     enabled: false
+  prometheus:
+    prometheusSpec:
+      serviceMonitorSelectorNilUsesHelmValues: false
+      scrapeInterval: 10s
 
 cadvisor:
   metrics:
     enabled: true
-    interval: 10s
+    interval: 5s

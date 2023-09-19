@@ -1,13 +1,12 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: {{ .Release.Name }}
-  annotations:
-    prometheus.io/path: "/metrics"
-    prometheus.io/port: "8080"
-    prometheus.io/scrape: "true"
+  name: {{ .Chart.Name }}
+  labels:
+    app: {{ .Chart.Name }}
 spec:
   selector:
-    app: {{ .Release.Name }}
+    app: {{ .Chart.Name }}
   ports:
-  - port: {{ .Values.port }}
+  - name: web
+    port: {{ .Values.port }}
