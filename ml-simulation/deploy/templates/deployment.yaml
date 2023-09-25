@@ -14,10 +14,13 @@ spec:
       containers:
       - name: {{ .Chart.Name }}
         image: ml-simulation
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: {{ .Values.port }}
         resources:
           limits:
             memory: 32M
-            cpu: 250m
+            cpu: 50m
+          requests:
+            memory: 32M
+            cpu: 25m

@@ -2,16 +2,92 @@ port: 8080
 
 # Dependencies
 kube-prometheus-stack:
-  kubeStateMetrics:
-    enabled: false
+  kube-state-metrics:
+    resources:
+      limits:
+        cpu: 200m
+        memory: 200Mi
+      requests:
+        cpu: 100m
+        memory: 100Mi
+  # kubeStateMetrics:
+  #   enabled: false
   nodeExporter:
     enabled: false
+  alertmanager:
+    alertmanagerSpec:
+      resources:
+        limits:
+          cpu: 200m
+          memory: 200Mi
+        requests:
+          cpu: 100m
+          memory: 100Mi
+  grafana:
+    serviceMonitor:
+      scrapeTimeout: 10s
+    resources:
+      limits:
+        cpu: 200m
+        memory: 200Mi
+      requests:
+        cpu: 100m
+        memory: 100Mi
+    dashboardProviders:
+      dashboardproviders.yaml:
+        apiVersion: 1
+        providers:
+        - name: 'default'
+          orgId: 1
+          folder: ''
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/default
+    dashboards:
+      default:
+        ml-simulation:
+          file: deploy/dashboards/ml-simulation.json
+        cpu-usage:
+          file: deploy/dashboards/cpu-usage.json
+        memory-usage:
+          file: deploy/dashboards/memory-usage.json
   prometheus:
     prometheusSpec:
       serviceMonitorSelectorNilUsesHelmValues: false
       scrapeInterval: 10s
+      scrapeTimeout: 10s
+      resources:
+        limits:
+          cpu: 400m
+          memory: 600Mi
+        requests:
+          cpu: 200m
+          memory: 600Mi
+  prometheusOperator:
+    resources:
+      limits:
+        cpu: 200m
+        memory: 200Mi
+      requests:
+        cpu: 100m
+        memory: 100Mi
+  kubelet:
+    serviceMonitor:
+      cAdvisorMetricRelabelings: []
 
 cadvisor:
+  resources:
+    limits:
+      cpu: 200m
+      memory: 200Mi
+    requests:
+      cpu: 100m
+      memory: 100Mi
+  image:
+    tag: v0.47.2
   metrics:
     enabled: true
-    interval: 5s
+    interval: 10s
+    scrapeTimeout: 10s

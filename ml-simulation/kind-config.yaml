@@ -1,0 +1,15 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+  kubeadmConfigPatches:
+  - |
+    kind: ClusterConfiguration
+    scheduler:
+      extraArgs:
+        bind-address: "0.0.0.0"
+        show-hidden-metrics-for-version: "1.26"
+        authorization-always-allow-paths: /healthz,/readyz,/livez,/metrics,/metrics/resources
+    controllerManager:
+      extraArgs:
+        bind-address: "0.0.0.0"
