@@ -1,3 +1,4 @@
+# Only has to be used, if monitoring kubernetes-internas is important
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
@@ -9,7 +10,7 @@ nodes:
       extraArgs:
         bind-address: "0.0.0.0"
         show-hidden-metrics-for-version: "1.26"
-        authorization-always-allow-paths: /healthz,/readyz,/livez,/metrics,/metrics/resources
+        authorization-always-allow-paths: /healthz,/readyz,/livez,/metrics,/metrics/resources  # if the /metrics/resources endpoint is to be scraped, the kube-scheduler ServiceMonitor has to be adapted to point to the correct http-path
     controllerManager:
       extraArgs:
         bind-address: "0.0.0.0"
